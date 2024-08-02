@@ -33,6 +33,20 @@ ChartJS.register(
 ChartJS.defaults.font.family = "'Arial', sans-serif";
 ChartJS.defaults.font.weight = 400;
 
+// Breakpoints
+const BREAKPOINTS = {
+  desktopMiddle: 1650,
+  desktopSmall: 1450,
+  laptop: 1366,
+  laptopSmall: 1280,
+  tablet: 1180,
+  tabletMiddle: 1024,
+  tabletSmall: 768,
+  mobile: 767,
+  mobileMiddle: 568,
+  mobileSmall: 320,
+};
+
 // Options for AxisY Chart
 const OPTIONS = {
   responsive: true,
@@ -228,6 +242,25 @@ const MONTHS = [
 const router = useRouter();
 const route = useRoute();
 
+// Resize indicator
+const isResize = ref(false);
+
+// Width of axesY
+const axesYWidth = ref(null);
+
+useResize(
+  () => {
+    axesYWidth.value = 0;
+
+    checkChartSettings();
+
+    isResize.value = !isResize.value;
+  },
+  {
+    watch: 'width',
+  }
+);
+
 // Current period
 const currentTab = computed<'week' | 'month' | 'year'>({
   get: () => route.query?.period || 'week',
@@ -242,9 +275,6 @@ const currentTab = computed<'week' | 'month' | 'year'>({
     }
   },
 });
-
-// Width of axesY
-const axesYWidth = ref(null);
 
 // Dynamic data
 const { data, pending, refresh } = await useAsyncData(
@@ -272,6 +302,7 @@ const { data, pending, refresh } = await useAsyncData(
         return input;
       }
 
+      // Modified data for Chart
       const dataForChart = {
         labels: [],
         purchasePlan: [],
@@ -337,6 +368,55 @@ const chartData = computed(() => ({
     },
   ],
 }));
+
+onBeforeMount(() => {
+  checkChartSettings();
+});
+
+const checkChartSettings = () => {
+  // Mobile parameters of Chart
+  if (isMaxWidthWindow(BREAKPOINTS.desktopSmall - 1)) {
+    // ChartJS Font
+    ChartJS.defaults.font.size = 12;
+    ChartJS.defaults.font.lineHeight = 1.67;
+
+    // Options
+    OPTIONS_BODY.plugins.chartAreaBackgroundColor.borderRadius = 15;
+    OPTIONS_BODY.plugins.chartAreaBackgroundColor.top = -5;
+    OPTIONS_BODY.plugins.chartAreaBackgroundColor.bottom = 27;
+
+    OPTIONS.layout.padding.bottom = 7;
+    OPTIONS_BODY.layout.padding.bottom = 7;
+
+    OPTIONS.scales.x.ticks.padding = 8;
+    OPTIONS_BODY.scales.x.ticks.padding = 8;
+
+    OPTIONS.scales.y.ticks.padding = 8;
+    OPTIONS_BODY.scales.y.ticks.padding = 8;
+
+    OPTIONS_BODY.scales.y.ticks.color = '#ffffff';
+  } else {
+    // ChartJS Font
+    ChartJS.defaults.font.size = 14;
+    ChartJS.defaults.font.lineHeight = 1.3;
+
+    // Options
+    OPTIONS_BODY.plugins.chartAreaBackgroundColor.borderRadius = 30;
+    OPTIONS_BODY.plugins.chartAreaBackgroundColor.top = -15;
+    OPTIONS_BODY.plugins.chartAreaBackgroundColor.bottom = 42;
+
+    OPTIONS.layout.padding.bottom = 15;
+    OPTIONS_BODY.layout.padding.bottom = 15;
+
+    OPTIONS.scales.x.ticks.padding = 15;
+    OPTIONS_BODY.scales.x.ticks.padding = 15;
+
+    OPTIONS.scales.y.ticks.padding = 30;
+    OPTIONS_BODY.scales.y.ticks.padding = 30;
+
+    OPTIONS_BODY.scales.y.ticks.color = '#6C6C6C';
+  }
+};
 </script>
 
 <template>
@@ -345,7 +425,7 @@ const chartData = computed(() => ({
 
     <ChartTabs v-model="currentTab" :tabs="TABS" class="charts__tabs" />
 
-    <div class="charts__items">
+    <div :key="isResize" class="charts__items">
       <div
         v-if="axesYWidth"
         class="charts__item-wrapper charts__item-wrapper--axes-y"
@@ -609,6 +689,12 @@ $mobile-middle: 568px;
     margin-left: -30px;
 
     padding-left: var(--axes-y-width, 0);
+
+    @include maxWidth(calc($desktop-small - 1px)) {
+      width: calc(100% + 8px);
+
+      margin-left: -8px;
+    }
 
     @include maxWidth($mobile-middle) {
       margin-top: 16px;
