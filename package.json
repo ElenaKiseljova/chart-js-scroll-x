@@ -17,5 +17,8 @@
     "nuxt": "^3.12.4",
     "vue": "latest",
     "vue-chartjs": "^5.3.1"
+  },
+  "devDependencies": {
+    "sass": "^1.77.8"
   }
 }
