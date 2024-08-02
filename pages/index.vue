@@ -10,6 +10,10 @@ import {
 } from 'chart.js';
 import { Bar } from 'vue-chartjs';
 
+useHead({
+  title: 'Charts by period',
+});
+
 // Register components of Chart
 ChartJS.register(
   Title,
