@@ -30,9 +30,50 @@ ChartJS.defaults.font.weight = 400;
 
 // Static data for Chart
 const OPTIONS = {
+  responsive: true,
+  maintainAspectRatio: false,
+  layout: {
+    padding: {
+      bottom: 27,
+    },
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
   scales: {
+    x: {
+      border: {
+        width: 0,
+      },
+      ticks: {
+        padding: 15,
+        color: '#6C6C6C',
+      },
+      grid: {
+        display: false,
+        // drawTicks: false,
+        // drawBorder: false,
+      },
+    },
     y: {
-      beginAtZero: true,
+      border: {
+        width: 0,
+      },
+      ticks: {
+        padding: 30,
+        color: '#6C6C6C',
+        beginAtZero: true,
+        callback: (value, index, values) => {
+          return priceFormatter(value);
+        },
+      },
+      grid: {
+        display: false,
+        // drawTicks: false,
+        // drawBorder: false,
+      },
     },
   },
 };
@@ -42,7 +83,7 @@ const DATA = {
   datasets: [
     {
       label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
+      data: [12000, 19000, 3000, 5000, 2000, 3000],
       borderWidth: 1,
     },
   ],
