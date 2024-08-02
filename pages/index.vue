@@ -173,17 +173,48 @@ const OPTIONS_BODY = {
   },
 };
 
-// Static data
-const DATA = {
+// Legends
+const LEGENDS = {
+  purchasePlan: {
+    label: 'Purchase Plan',
+    backgroundColor: '#2D9CDB',
+  },
+  purchased: {
+    label: 'Purchased',
+    backgroundColor: '#4C725D',
+  },
+  returns: {
+    label: 'Returns',
+    backgroundColor: '#F6AB81',
+  },
+};
+
+// Draft data
+const data = ref({
+  purchasePlan: [],
+  purchased: [],
+  returns: [],
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+});
+
+// Reactive Chart Data
+const chartData = computed(() => ({
+  labels: data.value?.labels || [],
   datasets: [
     {
-      label: '# of Votes',
-      data: [12000, 19000, 3000, 5000, 2000, 3000],
-      borderWidth: 1,
+      ...LEGENDS.purchasePlan,
+      data: data.value?.purchasePlan || [],
+    },
+    {
+      ...LEGENDS.purchased,
+      data: data.value?.purchased || [],
+    },
+    {
+      ...LEGENDS.returns,
+      data: data.value?.returns || [],
     },
   ],
-};
+}));
 
 // Width of axesY
 const axesYWidth = ref(null);
@@ -207,7 +238,7 @@ const axesYWidth = ref(null);
       >
         <div class="charts__item charts__item--axes-y">
           <Bar
-            :data="DATA"
+            :data="chartData"
             :options="OPTIONS"
             class="charts__bar charts__bar--axes-y"
           />
@@ -217,7 +248,7 @@ const axesYWidth = ref(null);
       <div class="charts__item-wrapper charts__item-wrapper--body">
         <div class="charts__item charts__item--body">
           <Bar
-            :data="DATA"
+            :data="chartData"
             :options="OPTIONS_BODY"
             class="charts__bar charts__bar--body"
           />
@@ -225,10 +256,25 @@ const axesYWidth = ref(null);
       </div>
 
       <ul
-        class="charts__legend"
+        class="charts__legend charts-legend"
         :style="{ '--axes-y-width': axesYWidth ? `${axesYWidth}px` : 'unset' }"
       >
-        <!-- Chart Legend -->
+        <li
+          v-for="(item, key) in LEGENDS"
+          :key="key"
+          class="charts-legend__item"
+        >
+          <span
+            class="charts-legend__circle"
+            :style="{
+              backgroundColor: item.backgroundColor,
+            }"
+          />
+
+          <h6 class="charts-legend__title">
+            {{ item.label }}
+          </h6>
+        </li>
       </ul>
     </div>
   </div>
@@ -265,6 +311,50 @@ $mobile-middle: 568px;
     padding-bottom: calc($height / $width * 100%);
 
     content: '';
+  }
+}
+
+.charts-legend {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  column-gap: 40px;
+
+  font-size: 14px;
+  line-height: 18.2px;
+  font-weight: 400;
+
+  color: var(--cl-black);
+
+  @include maxWidth($mobile-middle) {
+    column-gap: 16px;
+
+    line-height: 20px;
+  }
+
+  &__item {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    column-gap: 10px;
+  }
+
+  &__circle {
+    flex-shrink: 0;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    @include maxWidth($mobile-middle) {
+      width: 8px;
+      height: 8px;
+    }
   }
 }
 
@@ -342,7 +432,7 @@ $mobile-middle: 568px;
 
         display: block;
 
-        background-color: var(--cl-white);
+        background-color: #ffffff;
 
         overflow: hidden;
       }
