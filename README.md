@@ -4,6 +4,12 @@
 
 ---
 
+# Result
+
+[ChartJs Scroll X axis (Nuxt 3)](https://youtu.be/LmOEcSRtuQk)
+
+---
+
 # Nuxt 3 Minimal Starter
 
 Look at the
