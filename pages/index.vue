@@ -19,6 +19,10 @@ ChartJS.register(
   CategoryScale,
   LinearScale
 );
+
+// Font of Chart
+ChartJS.defaults.font.family = "'Arial', sans-serif";
+ChartJS.defaults.font.weight = 400;
 </script>
 
 <template>
