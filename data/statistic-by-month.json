@@ -1,0 +1,118 @@
+{
+  "statistic": {
+    "purchase_plan": 1944,
+    "purchased": 110768400,
+    "returns": 110768400
+  },
+  "group": [
+    {
+      "from_date": "2024-01-01",
+      "to_date": "2024-01-31",
+      "data": {
+        "purchase_plan": 51111,
+        "purchased": 54654,
+        "returns": 323
+      }
+    },
+    {
+      "from_date": "2024-02-01",
+      "to_date": "2024-02-29",
+      "data": {
+        "purchase_plan": 66559,
+        "purchased": 4646,
+        "returns": 554
+      }
+    },
+    {
+      "from_date": "2024-03-01",
+      "to_date": "2024-03-31",
+      "data": {
+        "purchase_plan": 77644,
+        "purchased": 65465,
+        "returns": 9754
+      }
+    },
+    {
+      "from_date": "2024-04-01",
+      "to_date": "2024-04-30",
+      "data": {
+        "purchase_plan": 4545,
+        "purchased": 194700,
+        "returns": 194700
+      }
+    },
+    {
+      "from_date": "2024-05-01",
+      "to_date": "2024-05-31",
+      "data": {
+        "purchase_plan": 11800,
+        "purchased": 11800,
+        "returns": 56656
+      }
+    },
+    {
+      "from_date": "2024-06-01",
+      "to_date": "2024-06-30",
+      "data": {
+        "purchase_plan": 65464,
+        "purchased": 54874,
+        "returns": 46454
+      }
+    },
+    {
+      "from_date": "2024-07-01",
+      "to_date": "2024-07-31",
+      "data": {
+        "purchase_plan": 54645,
+        "purchased": 42400,
+        "returns": 42400
+      }
+    },
+    {
+      "from_date": "2024-08-01",
+      "to_date": "2024-08-31",
+      "data": {
+        "purchase_plan": 65465,
+        "purchased": 54564,
+        "returns": 6445
+      }
+    },
+    {
+      "from_date": "2024-09-01",
+      "to_date": "2024-09-30",
+      "data": {
+        "purchase_plan": 123135,
+        "purchased": 15645,
+        "returns": 1513
+      }
+    },
+    {
+      "from_date": "2024-10-01",
+      "to_date": "2024-10-31",
+      "data": {
+        "purchase_plan": 45466,
+        "purchased": 6454,
+        "returns": 5464
+      }
+    },
+    {
+      "from_date": "2024-11-01",
+      "to_date": "2024-11-30",
+      "data": {
+        "purchase_plan": 8989,
+        "purchased": 64654,
+        "returns": 6454
+      }
+    },
+    {
+      "from_date": "2024-12-01",
+      "to_date": "2024-12-31",
+      "data": {
+        "purchase_plan": 87878,
+        "purchased": 77646,
+        "returns": 6545
+      }
+    }
+  ]
+}
+

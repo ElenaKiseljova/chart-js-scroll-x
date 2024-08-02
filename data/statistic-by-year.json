@@ -1,0 +1,55 @@
+{
+  "statistic": {
+    "purchase_plan": 8431372,
+    "purchased": 110927100,
+    "returns": 110927100
+  },
+  "group": [
+    {
+      "from_date": "2020-01-01",
+      "to_date": "2020-12-31",
+      "data": {
+        "purchase_plan": 100000000,
+        "purchased": 104000000,
+        "returns": 5000000
+      }
+    },
+    {
+      "from_date": "2021-01-01",
+      "to_date": "2021-12-31",
+      "data": {
+        "purchase_plan": 10000000,
+        "purchased": 9000000,
+        "returns": 2000000
+      }
+    },
+    {
+      "from_date": "2022-01-01",
+      "to_date": "2022-12-31",
+      "data": {
+        "purchase_plan": 77707770,
+        "purchased": 77700777,
+        "returns": 777000
+      }
+    },
+    {
+      "from_date": "2023-01-01",
+      "to_date": "2023-12-31",
+      "data": {
+        "purchase_plan": 84029428,
+        "purchased": 1580700,
+        "returns": 1580700
+      }
+    },
+    {
+      "from_date": "2024-01-01",
+      "to_date": "2024-12-31",
+      "data": {
+        "purchase_plan": 194400000,
+        "purchased": 110768400,
+        "returns": 110768400
+      }
+    }
+  ]
+}
+

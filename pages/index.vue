@@ -10,6 +10,10 @@ import {
 } from 'chart.js';
 import { Bar } from 'vue-chartjs';
 
+import statisticByMonth from '~/data/statistic-by-month.json';
+import statisticByWeek from '~/data/statistic-by-week.json';
+import statisticByYear from '~/data/statistic-by-year.json';
+
 useHead({
   title: 'Charts by period',
 });
@@ -205,11 +209,27 @@ const TABS = [
   },
 ];
 
+// Months
+const MONTHS = [
+  { name: 'January' },
+  { name: 'February' },
+  { name: 'March' },
+  { name: 'April' },
+  { name: 'May' },
+  { name: 'June' },
+  { name: 'July' },
+  { name: 'August' },
+  { name: 'September' },
+  { name: 'October' },
+  { name: 'November' },
+  { name: 'December' },
+];
+
 const router = useRouter();
 const route = useRoute();
 
-// Current period 'week' | 'month' | 'year'
-const currentTab = computed({
+// Current period
+const currentTab = computed<'week' | 'month' | 'year'>({
   get: () => route.query?.period || 'week',
   set: (value) => {
     if (value !== route.query?.period) {
@@ -226,13 +246,78 @@ const currentTab = computed({
 // Width of axesY
 const axesYWidth = ref(null);
 
-// Draft data
-const data = ref({
-  purchasePlan: [],
-  purchased: [],
-  returns: [],
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-});
+// Dynamic data
+const { data, pending, refresh } = await useAsyncData(
+  'get-chart-data',
+  () => {
+    switch (currentTab.value) {
+      case 'week':
+        return statisticByWeek;
+
+      case 'month':
+        return statisticByMonth;
+
+      case 'year':
+        return statisticByYear;
+
+      default:
+        return null;
+    }
+  },
+  {
+    lazy: true,
+    watch: [currentTab],
+    transform: (input) => {
+      if (!input) {
+        return input;
+      }
+
+      const dataForChart = {
+        labels: [],
+        purchasePlan: [],
+        purchased: [],
+        returns: [],
+      };
+
+      (input?.group || []).forEach((item) => {
+        // Label for current period type
+        let label = '*';
+
+        switch (currentTab.value) {
+          case 'week':
+            label = `${dateFormatter(item.from_date)}-${dateFormatter(
+              item.to_date
+            )}`;
+
+            break;
+
+          case 'month':
+            label = MONTHS.find(
+              (m, index) => index === new Date(item.from_date).getMonth()
+            )?.name;
+
+            break;
+
+          case 'year':
+            label = new Date(item.from_date).getFullYear();
+
+            break;
+
+          default:
+            break;
+        }
+
+        // Push all
+        dataForChart.labels.push(label);
+        dataForChart.purchasePlan.push(item.data.purchase_plan);
+        dataForChart.purchased.push(item.data.purchased);
+        dataForChart.returns.push(item.data.returns);
+      });
+
+      return dataForChart;
+    },
+  }
+);
 
 // Reactive Chart Data
 const chartData = computed(() => ({
