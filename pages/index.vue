@@ -21,14 +21,15 @@ ChartJS.register(
   Legend,
   BarElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  chartJsPlugins.chartAreaBackgroundColor
 );
 
 // Font of Chart
 ChartJS.defaults.font.family = "'Arial', sans-serif";
 ChartJS.defaults.font.weight = 400;
 
-// Static data for Chart
+// Options for AxisY Chart
 const OPTIONS = {
   responsive: true,
   maintainAspectRatio: false,
@@ -78,6 +79,101 @@ const OPTIONS = {
   },
 };
 
+// Options for Body Chart
+const OPTIONS_BODY = {
+  responsive: true,
+  maintainAspectRatio: false,
+  layout: {
+    padding: {
+      bottom: 27,
+    },
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+
+    // Tooltips
+    tooltip: {
+      mode: 'index',
+      usePointStyle: true,
+      pointStyle: 'circle',
+      boxWidth: 12,
+      boxHeight: 12,
+      borderWidth: 0,
+      caretSize: 0,
+      titleColor: '#222222',
+      titleSpacing: 5,
+      titleMarginBottom: 5,
+      bodyColor: '#222222',
+      bodySpacing: 5,
+      cornerRadius: 4,
+      backgroundColor: '#ffffff',
+      callbacks: {
+        label: (context) => {
+          return ` ${priceFormatter(context.parsed.y)}`;
+        },
+      },
+    },
+
+    // Background Color
+    chartAreaBackgroundColor: {
+      color: '#F7F7F7',
+      borderRadius: 30,
+      top: -15,
+      bottom: 42,
+    },
+  },
+  scales: {
+    x: {
+      border: {
+        width: 0,
+      },
+      ticks: {
+        padding: 15,
+        color: '#6C6C6C',
+      },
+      grid: {
+        display: false,
+        // drawTicks: false,
+        // drawBorder: false,
+      },
+    },
+    y: {
+      border: {
+        width: 0,
+      },
+      ticks: {
+        padding: 30,
+        color: '#6C6C6C',
+        beginAtZero: true,
+        callback: (value, index, values) => {
+          return priceFormatter(value);
+        },
+      },
+      grid: {
+        display: false,
+        // drawTicks: false,
+        // drawBorder: false,
+      },
+
+      // Set width of container with pinned axesY
+      afterFit: (ctx) => {
+        axesYWidth.value = ctx?.width || 0;
+      },
+    },
+  },
+
+  // Elements of Chart Body
+  elements: {
+    bar: {
+      borderRadius: 6,
+      borderSkipped: false,
+    },
+  },
+};
+
+// Static data
 const DATA = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
   datasets: [
@@ -122,7 +218,7 @@ const axesYWidth = ref(null);
         <div class="charts__item charts__item--body">
           <Bar
             :data="DATA"
-            :options="OPTIONS"
+            :options="OPTIONS_BODY"
             class="charts__bar charts__bar--body"
           />
         </div>
