@@ -189,6 +189,43 @@ const LEGENDS = {
   },
 };
 
+// Tabs
+const TABS = [
+  {
+    key: 'week',
+    title: 'By week',
+  },
+  {
+    key: 'month',
+    title: 'By month',
+  },
+  {
+    key: 'year',
+    title: 'By year',
+  },
+];
+
+const router = useRouter();
+const route = useRoute();
+
+// Current period 'week' | 'month' | 'year'
+const currentTab = computed({
+  get: () => route.query?.period || 'week',
+  set: (value) => {
+    if (value !== route.query?.period) {
+      router.push({
+        query: {
+          ...(route?.query || {}),
+          period: value,
+        },
+      });
+    }
+  },
+});
+
+// Width of axesY
+const axesYWidth = ref(null);
+
 // Draft data
 const data = ref({
   purchasePlan: [],
@@ -215,18 +252,13 @@ const chartData = computed(() => ({
     },
   ],
 }));
-
-// Width of axesY
-const axesYWidth = ref(null);
 </script>
 
 <template>
   <div class="charts">
     <h3 class="charts__title">Charts by period</h3>
 
-    <div class="charts__tabs">
-      <!-- Period Tabs -->
-    </div>
+    <ChartTabs v-model="currentTab" :tabs="TABS" class="charts__tabs" />
 
     <div class="charts__items">
       <div
