@@ -402,6 +402,8 @@ const chartData = computed(() => ({
 * {
   margin: 0;
   padding: 0;
+
+  box-sizing: border-box;
 }
 </style>
 
@@ -479,8 +481,6 @@ $mobile-middle: 568px;
   width: 100%;
 
   padding: 50px;
-
-  box-sizing: border-box;
 
   font-family: 'Arial', sans-serif;
 
@@ -603,9 +603,10 @@ $mobile-middle: 568px;
   }
 
   &__legend {
-    width: 100%;
+    width: calc(100% + 30px);
 
     margin-top: 30px;
+    margin-left: -30px;
 
     padding-left: var(--axes-y-width, 0);
 

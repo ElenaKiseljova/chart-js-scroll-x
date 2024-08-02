@@ -59,8 +59,6 @@ const currentTab = computed({
 
     background-color: #ffffff;
 
-    box-sizing: border-box;
-
     &.active {
       color: #ffffff;
 
